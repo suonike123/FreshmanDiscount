@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新生福利优惠</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-size: cover;
+      background-image: url('./imgs/10.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px;
+      background-color: rgba(255, 255, 255, .95);
+      background-size: cover;
+      background-image: linear-gradient(rgba(255, 255, 255, .6), rgba(255, 255, 255, 0.6)), url('./imgs/12.png');
+      /* backdrop-filter: 20px; */
+      /* background-blend-mode: multiply; */
+      /* background-image: url('./imgs/12.png'); */
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    p {
+      text-align: justify;
+      line-height: 1.6;
+      color: #000;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    #confirm-receive,
+    #redeem-now,
+    #cancel-give-up {
+      background-color: #4CAF50;
+      /* Green */
+    }
+
+    #confirm-receive:hover,
+    #redeem-now:hover {
+      background-color: #45a049;
+    }
+
+    #confirm-receive:active,
+    #redeem-now:active {
+      transform: scale(0.98);
+    }
+
+    #give-up,
+    #never-enjoy,
+    #confirm-give-up {
+      background-color: #999;
+      /* Red */
+    }
+
+    #give-up:hover,
+    #never-enjoy:hover {
+      background-color: #aaa;
+    }
+
+    #give-up:active,
+    #never-enjoy:active {
+      transform: scale(0.98);
+    }
+
+    /* 模态框样式 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+
+      background-color: #fefefe;
+      border: 1px solid #888;
+      width: 80%;
+
+      padding: 20px;
+      max-width: 600px;
+      position: relative;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+    }
+
+    .modal-content.qd {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fa6a7b;
+      color: #fff !important;
+    }
+
+    .modal-content.fq {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #666;
+      color: #fff !important;
+    }
+
+    .modal-content.qd p,
+    .modal-content.fq p {
+      color: #fff !important;
+    }
+
+    .modal-content.qd .close,
+    .modal-content.fq .close {
+      color: #fff !important;
+    }
+
+    .modal-content.qx {
+      height: 150px;
+    }
+
+
+    .close {
+      position: absolute;
+      right: 10px;
+      top: 4px;
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .modal-secondary button {
+      margin-top: 20px;
+    }
+
+    .modal-secondary .modal-content {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>新生福利优惠</h1>
+    <p>升舱就是51Talk报名新学员在学习一个月后，通过自己上课表现获得升舱优惠大礼包，进行课程续报的过程，每个学员在51Talk学习生涯中只有一次升舱的机会。</p>
+    <p>升舱期间，不只是可以获得大额奖学金，还可以获得更多的赠课，而且再也不用担心后续课程涨价的问题了！</p>
+    <p>还在等什么？机智的家长朋友们千万不要错过哦！快快联系班主任领取奖学金，以最优惠的价格给小朋友们升舱吧！</p>
+    <button id="confirm-receive">确认领取，立即兑换使用</button>
+    <button id="give-up">确认放弃，终身不再享用</button>
+  </div>
+
+  <!-- 模态框 -->
+  <div id="modal-confirm-receive" class="modal">
+    <div class="modal-content qd">
+      <span class="close">&times;</span>
+      <p>尊敬的升舱会员(未来之星)您好，奖学金已到账，请及时联系班主任续费兑换减免并参与升舱特权。</p>
+    </div>
+  </div>
+
+  <div id="modal-secondary-give-up" class="modal modal-secondary">
+    <div class="modal-content qx">
+      <span class="close">&times;</span>
+      <p>你确定要放弃这次机会吗？这将是您唯一的一次机会。</p>
+      <button id="confirm-give-up">确认放弃</button>
+      <button id="cancel-give-up">取消放弃</button>
+    </div>
+  </div>
+
+  <div id="modal-final-give-up" class="modal">
+    <div class="modal-content fq">
+      <span class="close">&times;</span>
+      <p>很遗憾，您已选择放弃这次机会，希望下次能有更好的选择！</p>
+    </div>
+  </div>
+
+  <script>
+    // 获取模态框
+    var modalConfirmReceive = document.getElementById("modal-confirm-receive");
+    var modalSecondaryGiveUp = document.getElementById("modal-secondary-give-up");
+    var modalFinalGiveUp = document.getElementById("modal-final-give-up");
+
+    // 获取关闭按钮
+    var spanConfirmReceive = document.getElementsByClassName("close")[0];
+    var spanSecondaryGiveUp = document.getElementsByClassName("close")[1];
+    var spanFinalGiveUp = document.getElementsByClassName("close")[2];
+
+    // 当用户点击按钮时打开模态框
+    document.getElementById('confirm-receive').addEventListener('click', function () {
+      modalConfirmReceive.style.display = "block";
+    });
+
+    document.getElementById('give-up').addEventListener('click', function () {
+      modalSecondaryGiveUp.style.display = "block";
+    });
+
+    // 当用户点击二次确认模态框内的按钮时执行相应操作
+    document.getElementById('confirm-give-up').addEventListener('click', function () {
+      modalFinalGiveUp.style.display = "block";
+      modalSecondaryGiveUp.style.display = "none";
+    });
+
+    document.getElementById('cancel-give-up').addEventListener('click', function () {
+      modalSecondaryGiveUp.style.display = "none";
+    });
+
+    // 当用户点击关闭按钮时关闭模态框
+    spanConfirmReceive.onclick = function () {
+      modalConfirmReceive.style.display = "none";
+    }
+
+    spanSecondaryGiveUp.onclick = function () {
+      modalSecondaryGiveUp.style.display = "none";
+    }
+
+    spanFinalGiveUp.onclick = function () {
+      modalFinalGiveUp.style.display = "none";
+    }
+
+    // 当用户点击任意地方之外的模态框时关闭模态框
+    window.onclick = function (event) {
+      if (event.target == modalConfirmReceive || event.target == modalSecondaryGiveUp || event.target == modalFinalGiveUp) {
+        modalConfirmReceive.style.display = "none";
+        modalSecondaryGiveUp.style.display = "none";
+        modalFinalGiveUp.style.display = "none";
+      }
+    }
+  </script>
+</body>
+
+</html>
